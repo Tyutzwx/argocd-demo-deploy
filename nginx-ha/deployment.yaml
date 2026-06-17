@@ -27,11 +27,10 @@ spec:
                 values:
                 - nginx-ha
             topologyKey: kubernetes.io/hostname
+      # Pod 级别安全上下文（只保留 runAsNonRoot 和 runAsUser）
       securityContext:
         runAsNonRoot: true
         runAsUser: 101
-        capabilities:
-          drop: ["ALL"]
       containers:
       - name: nginx
         image: nginx:1.26
@@ -44,6 +43,10 @@ spec:
           limits:
             cpu: "500m"
             memory: "256Mi"
+        # 容器级别安全上下文（包含 capabilities）
+        securityContext:
+          capabilities:
+            drop: ["ALL"]
         livenessProbe:
           httpGet:
             path: /
