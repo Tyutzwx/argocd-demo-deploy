@@ -27,7 +27,6 @@ spec:
                 values:
                 - nginx-ha
             topologyKey: kubernetes.io/hostname
-      # Pod 级别安全上下文（只保留 runAsNonRoot 和 runAsUser）
       securityContext:
         runAsNonRoot: true
         runAsUser: 101
@@ -35,7 +34,7 @@ spec:
       - name: nginx
         image: nginxinc/nginx-unprivileged:1.26
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         resources:
           requests:
             cpu: "100m"
@@ -43,20 +42,19 @@ spec:
           limits:
             cpu: "500m"
             memory: "256Mi"
-        # 容器级别安全上下文（包含 capabilities）
         securityContext:
           capabilities:
             drop: ["ALL"]
         livenessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           initialDelaySeconds: 3
           periodSeconds: 5
 ---
@@ -67,7 +65,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 80
-    targetPort: 80
+  - port: 80          # 外部访问端口仍为80
+    targetPort: 8080  # 转发到Pod的8080
   selector:
     app: nginx-ha
