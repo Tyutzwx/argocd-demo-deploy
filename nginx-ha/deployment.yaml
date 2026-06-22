@@ -38,7 +38,7 @@ spec:
         runAsUser: 101
       containers:
       - name: nginx
-        image: nginxinc/nginx-unprivileged:1.26
+        image: 192.168.174.137:8080/practice-demo/nginx-ha:placeholder
         ports:
         - containerPort: 8080
         resources:
