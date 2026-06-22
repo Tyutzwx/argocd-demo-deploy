@@ -1,0 +1,6 @@
+*.tar.gz
+*.tgz
+data/
+common/
+.env
+*.log
