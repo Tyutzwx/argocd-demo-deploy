@@ -38,7 +38,7 @@ spec:
         runAsUser: 101
       containers:
       - name: nginx
-        image: 192.168.174.137:8080/practice-demo/nginx-ha:placeholder
+        image: 192.168.174.137:8080/practice-demo/nginx-ha:4a76e4a
         ports:
         - containerPort: 8080
         resources:
