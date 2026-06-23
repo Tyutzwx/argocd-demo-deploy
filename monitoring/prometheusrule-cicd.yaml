@@ -1,0 +1,32 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cicd-alerts
+  namespace: default
+  labels:
+    release: prometheus
+spec:
+  groups:
+  - name: nginx-ha
+    rules:
+    - alert: NginxHigh5xxRate
+      expr: rate(nginx_http_requests_total{status=~"5.."}[5m]) > 0.05
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Nginx HA 5xx 错误率过高"
+    - alert: NginxDeploymentReplicaMismatch
+      expr: kube_deployment_spec_replicas{deployment="nginx-ha"} != kube_deployment_status_replicas_available{deployment="nginx-ha"}
+      for: 3m
+      labels:
+        severity: warning
+      annotations:
+        summary: "nginx-ha 副本数不匹配"
+    - alert: ArgoCDOutOfSync
+      expr: argocd_app_info{sync_status="OutOfSync"} == 1
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: "ArgoCD 应用 OutOfSync"
