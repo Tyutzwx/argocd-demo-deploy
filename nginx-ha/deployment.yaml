@@ -85,6 +85,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-ha
+  labels:
+    app: nginx-ha                          # 添加这一行
+    app.kubernetes.io/instance: nginx-ha   # 保留原有标签
 spec:
   type: NodePort
   ports:
