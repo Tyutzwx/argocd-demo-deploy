@@ -5,7 +5,7 @@ metadata:
 data:
   status.conf: |
     server {
-        listen 8080;
+        listen 8081;
         location /status {
             stub_status;
             allow 127.0.0.1;
