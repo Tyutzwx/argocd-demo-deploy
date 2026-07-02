@@ -1,0 +1,20 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: grafana
+        livenessProbe:
+          initialDelaySeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 6
+        readinessProbe:
+          initialDelaySeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 6
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
