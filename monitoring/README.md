@@ -11,6 +11,7 @@
 | `patches/alertmanager-probes-patch.yaml` | Alertmanager: 探针延时调优，内存升至512Mi |
 | `patches/prometheus-namespace-selector-patch.yaml` | Prometheus: 允许监控所有命名空间的 ServiceMonitor |
 
+
 ## 应用补丁（集群重建后恢复配置）
 ```bash
 cd monitoring && ./apply-patches.sh
@@ -20,4 +21,5 @@ cd monitoring && ./apply-patches.sh
 ```bash
 kubectl get deployment prometheus-grafana -n monitoring -o yaml | grep -A5 livenessProbe
 kubectl get statefulset alertmanager-prometheus-kube-prometheus-alertmanager -n monitoring -o yaml | grep -A5 livenessProbe
+kubectl get daemonset prometheus-prometheus-node-exporter -n monitoring -o yaml | grep -A5 livenessProbe
 ```
